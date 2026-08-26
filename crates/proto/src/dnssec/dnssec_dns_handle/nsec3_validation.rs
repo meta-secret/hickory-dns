@@ -373,9 +373,32 @@ fn build_encloser_candidates_list(
             // `soa_name` is the final candidate, we already added it.
             return candidates;
         }
-        name = name.base_name();
-        // TODO: can `query_name` *not* be a sub-name of `soa_name`?
-        debug_assert_ne!(name, Name::root());
+        let next = name.base_name();
+        if next == Name::root() {
+            return candidates;
+        }
+        name = next;
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::str::FromStr;
+
+    use super::*;
+
+    #[test]
+    fn encloser_candidates_stop_at_root_for_cross_zone_soa() {
+        let query_name = Name::from_str("target.example.").expect("valid query name");
+        let soa_name = Name::from_str("unrelated.test.").expect("valid SOA name");
+
+        let candidates = build_encloser_candidates_list(&query_name, &soa_name, &[], 0);
+
+        assert_eq!(candidates.len(), 2);
+        assert_eq!(
+            candidates.last().map(|candidate| &candidate.name),
+            Some(&Name::from_str("example.").expect("valid parent name"))
+        );
     }
 }
 

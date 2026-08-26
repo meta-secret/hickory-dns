@@ -14,7 +14,7 @@ documentation = "https://docs.rs/hickory-proto"
 # contents of this file are stored and indexed in the registry.
 readme = "README.md"
 
-version.workspace = true
+version = "0.26.1"
 authors.workspace = true
 edition.workspace = true
 rust-version.workspace = true
