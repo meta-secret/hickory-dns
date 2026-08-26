@@ -53,7 +53,7 @@ __dnssec = []
 serde = ["dep:serde", "hickory-proto/serde"]
 system-config = ["dep:ipconfig", "dep:resolv-conf"]
 
-tokio = ["dep:tokio", "tokio/rt", "hickory-proto/tokio"]
+tokio = ["dep:tokio", "tokio/rt"]
 
 [lib]
 name = "hickory_resolver"
